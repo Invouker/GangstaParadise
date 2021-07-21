@@ -1,0 +1,168 @@
+<div class="container">
+  <div class="row">
+    <div class="d-flex justify-content-center">
+      <div class="auth">
+        <!-- -->
+        <div class="authCard register" style="display: none;">
+          <div class="container cardTop">
+            <div class="row ">
+              <div class="col">
+                <h3>Registrácia</h3> </div>
+              <div class="col image"> <img src="./assets/images/michael.png" width=100% /> </div>
+            </div>
+          </div>
+          <form id="register">
+            <div class="mb-3">
+              <label for="registerUserNameInput" class="form-label">Nickname</label>
+              <input type="text" class="form-control" required="required" id="registerUserNameInput" aria-describedby="userName" placeholder="Nick"> </div>
+            <div class="mb-3">
+              <label for="registerEmailInput" class="form-label">E-mail</label>
+              <input type="email" class="form-control" required="required" id="registerEmailInput" aria-describedby="emailHelp" placeholder="E-Mail" autofocus> </div>
+            <div class="mb-3">
+              <label for="registerPasswordInput" class="form-label">Heslo</label>
+              <input type="password" required="required" minlength="5" maxlength="24" class="form-control" id="registerPasswordInput" aria-describedby="passwordHelp" placeholder="Heslo"> </div>
+            <div class="mb-3">
+              <label for="registerPasswordAgainInput" class="form-label">Potvrdenie hesla</label>
+              <input type="password" required="required" minlength="5" maxlength="24" oninput="check(this)" class="form-control" id="registerPasswordAgainInput" aria-describedby="passwordHelp" placeholder="Heslo"> </div>
+            <div class="mb-3 form-check">
+              <input type="checkbox" required="required" class="form-check-input" id="checkRules">
+              <label class="form-check-label" for="checkRules">Suhlasím s pravidlámi!</label>
+            </div>
+            <div class="container menu">
+              <div class="row">
+                <div class="col"> <a class="loginLink">Už máš účet?</a> </div>
+                <div class="col"> <a class="forgotPasswordLink">Zabudól si heslo?</a> </div>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-dark right">Potvrdiť</button>
+          </form>
+        </div>
+        <!-- -->
+        <div class="authCard login">
+          <div class="container cardTop">
+            <div class="row ">
+              <div class="col">
+                <h3>Prihlásenie</h3> </div>
+              <div class="col image"> <img src="./assets/images/girl.png" style="margin-left: 2em;" width=60% /> </div>
+            </div>
+          </div>
+          <form id="login">
+            <div class="mb-3">
+              <label for="loginUserNameInput" class="form-label">Nickname</label>
+              <input type="text" class="form-control" required="required" id="loginUserNameInput" aria-describedby="userName" placeholder="Nick"> </div>
+            <div class="mb-3">
+              <label for="loginPasswordInput" class="form-label">Heslo</label>
+              <input type="password" required="required" class="form-control" id="loginPasswordInput" aria-describedby="passwordHelp" placeholder="Heslo"> </div>
+            <div class="container menu">
+              <div class="row">
+                <div class="col"> <a class="registerLink">Nemáš účet?</a> </div>
+                <div class="col"> <a class="forgotPasswordLink">Zabudól si heslo?</a> </div>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-dark right">Potvrdiť</button>
+          </form>
+        </div>
+        <!-- -->
+        <div class="authCard forgotPassword" style="display: none;">
+          <div class="container cardTop">
+            <div class="row ">
+              <div class="col">
+                <h3>Zresetovanie hesla</h3> </div>
+              <div class="col image"> <img src="./assets/images/franklin.png" width=80% /> </div>
+            </div>
+          </div>
+          <form id="forgotPassword">
+            <div class="mb-3">
+              <label for="forgotPasswordEmailInput" class="form-label">E-mail pre zresetovanie hesla</label>
+              <input  type="email" class="form-control" required="required" id="forgotPasswordEmailInput" aria-describedby="emailHelp" placeholder="E-Mail" autofocus> </div>
+            <div class="container menu">
+              <div class="col"> <a class="loginLink">Už máš účet?</a> </div>
+            </div>
+            <button type="submit" class="btn btn-dark right">Potvrdiť</button>
+          </form>
+        </div>
+        <!-- -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function check(input) {
+    if(input.value !== document.getElementById('passwordInput').value) {
+      input.setCustomValidity('Heslá sa musia zhodovať!');
+    } else {
+      // input is valid -- reset the error message
+      input.setCustomValidity('');
+    }
+  }
+
+  let activeTab = "login";
+  $(".registerLink").click(function() {
+    $(".login").fadeOut("slow", function() {
+      $(".register").fadeIn("slow", function() {
+        activeTab = "register";
+      });
+    });
+  });
+  $(".loginLink").click(function() {
+    if(activeTab == "register") $(".register").fadeOut("slow", function() {
+      $(".login").fadeIn("slow", function() {
+        activeTab = "login";
+      });
+    });
+    if(activeTab == "forgotPassword") $(".forgotPassword").fadeOut("slow", function() {
+      $(".login").fadeIn("slow", function() {
+        activeTab = "login";
+      });
+    });
+  });
+  $(".forgotPasswordLink").click(function() {
+    if(activeTab == "register") $(".register").fadeOut("slow", function() {
+      $(".forgotPassword").fadeIn("slow", function() {
+        activeTab = "forgotPassword";
+      });
+    });
+    if(activeTab == "login")
+      $(".login").fadeOut("slow", function() {
+        $(".forgotPassword").fadeIn("slow", function() {
+          activeTab = "forgotPassword";
+        });
+      });
+
+  });
+
+
+  $("form").submit(function(event) {
+    switch(activeTab) {
+      case "login": {
+        mp.trigger("cef.loginAttempt",
+                $("input#loginUserNameInput").first().val(),
+                $("input#loginPasswordInput").first().val()
+        );
+
+
+        break;
+      }
+      case "register": {
+
+        mp.trigger("cef.registerAttempt",
+                $("input#registerUserNameInput").first().val(),
+                $("input#registerEmailInput").first().val(),
+                $("input#registerPasswordInput").first().val()
+        );
+
+        break;
+      }
+      case "forgotPassword": {
+        let mail = $("input#forgotPasswordEmailInput").first().val();
+        mp.trigger("cef.forgotPassword", mail);
+
+        mp.events.callRemote("server.debug", "MORE OCEAN: " + message);
+        break;
+      }
+    }
+    event.preventDefault();
+  });
+
+</script>
