@@ -1,0 +1,65 @@
+[2021-07-25T13:49:47.495] [INFO] latest.log - Hello!
+[2021-07-25T13:49:47.500] [DEBUG] latest.log - debug message
+[2021-07-25T13:49:47.500] [INFO] latest.log - doing something.
+[2021-07-25T13:49:47.501] [INFO] latest.log - this is just a test
+[2021-07-25T13:49:47.501] [ERROR] latest.log - of a custom appender
+[2021-07-25T13:49:47.501] [WARN] latest.log - that outputs json
+[2021-07-25T13:49:47.501] [INFO] latest.log - Ganga Paradise gamemode initialization...
+[2021-07-25T13:49:47.505] [INFO] latest.log - Loading Database
+[2021-07-25T13:49:47.841] [INFO] latest.log - Created 9942 vehicles.
+[2021-07-25T13:49:48.270] [INFO] latest.log - Camera initialization!
+[2021-07-25T13:49:48.277] [INFO] latest.log - [32m[DONE][0m "GangstaParadise" package has been loaded.
+[2021-07-25T13:49:48.277] [INFO] latest.log - [33m[INFO][0m Starting packages...
+[2021-07-25T13:49:48.278] [INFO] latest.log - [32m[DONE][0m Server packages have been started.
+[2021-07-25T13:50:42.630] [INFO] latest.log - Hello!
+[2021-07-25T13:50:42.634] [DEBUG] latest.log - debug message
+[2021-07-25T13:50:42.635] [INFO] latest.log - doing something.
+[2021-07-25T13:50:42.635] [INFO] latest.log - this is just a test
+[2021-07-25T13:50:42.635] [ERROR] latest.log - of a custom appender
+[2021-07-25T13:50:42.636] [WARN] latest.log - that outputs json
+[2021-07-25T13:50:42.636] [INFO] latest.log - Ganga Paradise gamemode initialization...
+[2021-07-25T13:50:42.640] [INFO] latest.log - Loading Database
+[2021-07-25T13:50:42.977] [INFO] latest.log - Created 9942 vehicles.
+[2021-07-25T13:50:43.157] [INFO] latest.log - Camera initialization!
+[2021-07-25T13:50:43.163] [INFO] latest.log - [32m[DONE][0m "GangstaParadise" package has been loaded.
+[2021-07-25T13:50:43.163] [INFO] latest.log - [33m[INFO][0m Starting packages...
+[2021-07-25T13:50:43.164] [INFO] latest.log - [32m[DONE][0m Server packages have been started.
+[2021-07-25T13:50:58.916] [INFO] latest.log - Hello!
+[2021-07-25T13:50:58.920] [DEBUG] latest.log - debug message
+[2021-07-25T13:50:58.920] [INFO] latest.log - doing something.
+[2021-07-25T13:50:58.921] [INFO] latest.log - this is just a test
+[2021-07-25T13:50:58.921] [ERROR] latest.log - of a custom appender
+[2021-07-25T13:50:58.921] [WARN] latest.log - that outputs json
+[2021-07-25T13:50:58.922] [INFO] latest.log - Ganga Paradise gamemode initialization...
+[2021-07-25T13:50:58.926] [INFO] latest.log - Loading Database
+[2021-07-25T13:50:59.267] [INFO] latest.log - Created 9942 vehicles.
+[2021-07-25T13:50:59.453] [INFO] latest.log - Camera initialization!
+[2021-07-25T13:50:59.460] [INFO] latest.log - [32m[DONE][0m "GangstaParadise" package has been loaded.
+[2021-07-25T13:50:59.460] [INFO] latest.log - [33m[INFO][0m Starting packages...
+[2021-07-25T13:50:59.461] [INFO] latest.log - [32m[DONE][0m Server packages have been started.
+[2021-07-25T13:51:16.084] [INFO] latest.log - Hello!
+[2021-07-25T13:51:16.089] [DEBUG] latest.log - debug message
+[2021-07-25T13:51:16.089] [INFO] latest.log - doing something.
+[2021-07-25T13:51:16.089] [INFO] latest.log - this is just a test
+[2021-07-25T13:51:16.089] [ERROR] latest.log - of a custom appender
+[2021-07-25T13:51:16.090] [WARN] latest.log - that outputs json
+[2021-07-25T13:51:16.090] [INFO] latest.log - Ganga Paradise gamemode initialization...
+[2021-07-25T13:51:16.094] [INFO] latest.log - Loading Database
+[2021-07-25T13:51:16.419] [INFO] latest.log - Created 9942 vehicles.
+[2021-07-25T13:51:16.600] [INFO] latest.log - Camera initialization!
+[2021-07-25T13:51:16.607] [INFO] latest.log - [32m[DONE][0m "GangstaParadise" package has been loaded.
+[2021-07-25T13:51:16.607] [INFO] latest.log - [33m[INFO][0m Starting packages...
+[2021-07-25T13:51:16.608] [INFO] latest.log - [32m[DONE][0m Server packages have been started.
+[2021-07-25T13:51:33.261] [INFO] latest.log - Hello!
+[2021-07-25T13:51:33.266] [DEBUG] latest.log - debug message
+[2021-07-25T13:51:33.266] [INFO] latest.log - doing something.
+[2021-07-25T13:51:33.266] [INFO] latest.log - this is just a test
+[2021-07-25T13:51:33.267] [ERROR] latest.log - of a custom appender
+[2021-07-25T13:51:33.267] [WARN] latest.log - that outputs json
+[2021-07-25T13:51:33.267] [INFO] latest.log - Ganga Paradise gamemode initialization...
+[2021-07-25T13:51:33.271] [INFO] latest.log - Loading Database
+[2021-07-25T13:51:33.600] [INFO] latest.log - Created 9942 vehicles.
+[2021-07-25T13:51:33.782] [INFO] latest.log - Camera initialization!
+[2021-07-25T13:51:33.789] [INFO] latest.log - [32m[DONE][0m "GangstaParadise" package has been loaded.
+[2021-07-25T13:51:33.789] [INFO] latest.log - [33m[INFO][0m Starting packages...
+[2021-07-25T13:51:33.790] [INFO] latest.log - [32m[DONE][0m Server packages have been started.

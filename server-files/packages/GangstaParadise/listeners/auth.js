@@ -37,6 +37,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var database_1 = require("../database");
+var users = require("../database/userManager");
 var bcrypt = require("bcrypt");
 mp.events.add("playerJoin" /* PLAYER_JOIN */, function (player) {
     console.log("[SERVER]: " + player.name + " has joined the server!");
@@ -47,29 +48,56 @@ mp.events.add("playerJoin" /* PLAYER_JOIN */, function (player) {
    * 0 player already exists
    * 1 player successfully registred
    * */
-mp.events.add("server.registerAttempt", function (player, nick, email, password) {
-    new Promise(function (resolve, reject) {
-        database_1.pool.query("SELECT userName FROM gp_users WHERE userName=?", [nick], function (err, result, fields) {
-            if (err)
-                reject(err);
-            if (result.length <= 0) {
-                console.log("[DB] Player doesnt exists and registred!");
-                bcrypt.genSalt(12, function (err, salt) {
-                    if (err)
-                        reject(err);
-                    bcrypt.hash(password, salt, function (err, hash) {
-                        database_1.pool.query("INSERT INTO gp_users (userName, email, password, money, coin) VALUES (?,?,?,?,?)", [nick, email, hash, 2500, 25], function (err, result, fields) { });
-                        resolve(1);
+mp.events.add("server.registerAttempt", function (player, nick, email, password) { return __awaiter(void 0, void 0, void 0, function () {
+    return __generator(this, function (_a) {
+        new Promise(function (resolve, reject) {
+            database_1.pool.query("SELECT userName FROM gp_users WHERE userName=?", [nick], function (err, result, fields) {
+                return __awaiter(this, void 0, void 0, function () {
+                    var _this = this;
+                    return __generator(this, function (_a) {
+                        if (err)
+                            reject(err);
+                        if (result.length <= 0) {
+                            console.log("[DB] Player doesnt exists and registred!");
+                            bcrypt.genSalt(12, function (err, salt) {
+                                if (err)
+                                    reject(err);
+                                bcrypt.hash(password, salt, function (err, hash) { return __awaiter(_this, void 0, void 0, function () {
+                                    return __generator(this, function (_a) {
+                                        switch (_a.label) {
+                                            case 0:
+                                                //pool.query("INSERT INTO gp_users (userName, email, password, money, coin) VALUES (?,?,?,?,?)", [nick, email, hash, 2500, 25], function (err: any, result: any, fields: any) {});
+                                                users.registerUser(nick, email, hash);
+                                                return [4 /*yield*/, resolve(1)];
+                                            case 1:
+                                                _a.sent();
+                                                return [2 /*return*/];
+                                        }
+                                    });
+                                }); });
+                            });
+                        }
+                        else
+                            resolve(0);
+                        return [2 /*return*/];
                     });
                 });
-            }
-            else
-                resolve(0);
+            });
+        }).then(function (res) {
+            return __awaiter(this, void 0, void 0, function () {
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0: return [4 /*yield*/, player.call("client.registerResult", res)];
+                        case 1:
+                            _a.sent();
+                            return [2 /*return*/];
+                    }
+                });
+            });
         });
-    }).then(function (res) {
-        player.call("client.registerResult", res);
+        return [2 /*return*/];
     });
-});
+}); });
 /*
    * Login results:
    * 2 Error
@@ -77,7 +105,6 @@ mp.events.add("server.registerAttempt", function (player, nick, email, password)
    * 1 successfuly logged
    * */
 mp.events.add("server.loginAttempt", function (player, nick, password) {
-    console.log("attempt");
     new Promise(function (resolve, reject) {
         database_1.pool.query("SELECT userName, password FROM gp_users WHERE userName=?", [nick], function (err, res, fields) {
             if (err)
@@ -93,9 +120,10 @@ mp.events.add("server.loginAttempt", function (player, nick, password) {
                                 switch (_a.label) {
                                     case 0:
                                         if (!res) return [3 /*break*/, 2];
-                                        player.setVariable("money", result[0]["money"]);
-                                        player.setVariable("coin", result[0]["coin"]);
+                                        // player.setVariable("money", result[0]["money"]);
+                                        //player.setVariable("coin", result[0]["coin"]);
                                         player.setVariable("isLogged", true);
+                                        console.log("Successfully logged in!");
                                         return [4 /*yield*/, resolve("1")];
                                     case 1:
                                         _a.sent();
@@ -113,20 +141,9 @@ mp.events.add("server.loginAttempt", function (player, nick, password) {
             }
         });
     }).then(function (result) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, console.log("result test: " + result)];
-                    case 1:
-                        _a.sent();
-                        console.log(typeof result);
-                        return [4 /*yield*/, player.call("client.loginResult", "" + result)];
-                    case 2:
-                        _a.sent();
-                        return [2 /*return*/];
-                }
-            });
-        });
+        player.setVariable('client.loginResult', result);
+        if (result === "1")
+            users.loadUser(player, nick);
     });
 });
 mp.events.add("server.forgotPassword", function (player, email) {

@@ -1,4 +1,5 @@
 import {pool} from "../database";
+const users = require("../database/userManager");
 const bcrypt = require("bcrypt");
 
 
@@ -13,26 +14,27 @@ mp.events.add(RageEnums.EventKey.PLAYER_JOIN, (player) => {
    * 0 player already exists
    * 1 player successfully registred
    * */
-mp.events.add("server.registerAttempt", (player, nick, email, password) => {
+mp.events.add("server.registerAttempt", async (player, nick, email, password) => {
     new Promise(function(resolve, reject) {
-        pool.query("SELECT userName FROM gp_users WHERE userName=?", [nick], function (err:any, result:any, fields:any) {
+        pool.query("SELECT userName FROM gp_users WHERE userName=?", [nick], async function (err:any, result:any, fields:any) {
             if (err) reject(err);
             if(result.length <= 0) {
                 console.log("[DB] Player doesnt exists and registred!");
 
                 bcrypt.genSalt(12, (err: any, salt: any) => {
                     if (err) reject(err);
-                    bcrypt.hash(password, salt, (err:any, hash: any) => {
-                        pool.query("INSERT INTO gp_users (userName, email, password, money, coin) VALUES (?,?,?,?,?)", [nick, email, hash, 2500, 25], function (err:any, result:any, fields:any) {});
-                        resolve(1);
+                    bcrypt.hash(password, salt, async (err: any, hash: any) => {
+                        //pool.query("INSERT INTO gp_users (userName, email, password, money, coin) VALUES (?,?,?,?,?)", [nick, email, hash, 2500, 25], function (err: any, result: any, fields: any) {});
+                        users.registerUser(nick, email, hash);
+                        await resolve(1);
                     });
                 });
 
 
             } else resolve(0);
         });
-    }).then(function (res) {
-        player.call("client.registerResult", res);
+    }).then(async function (res) {
+        await player.call("client.registerResult", res);
     });
 });
 
@@ -45,7 +47,6 @@ mp.events.add("server.registerAttempt", (player, nick, email, password) => {
    * */
 
 mp.events.add("server.loginAttempt", (player, nick, password) => {
-    console.log("attempt");
     new Promise(function (resolve, reject) {
         pool.query("SELECT userName, password FROM gp_users WHERE userName=?", [nick],  function (err: any, res: any, fields: any) {
             if (err) reject(err);
@@ -56,9 +57,11 @@ mp.events.add("server.loginAttempt", (player, nick, password) => {
                     bcrypt.compare(password, result[0]["password"], async  function (err: any, res: boolean) {
                         // if res == true, password matched
                         if (res) {
-                            player.setVariable("money", result[0]["money"]);
-                            player.setVariable("coin", result[0]["coin"]);
+                           // player.setVariable("money", result[0]["money"]);
+                            //player.setVariable("coin", result[0]["coin"]);
+
                             player.setVariable("isLogged", true);
+                            console.log("Successfully logged in!")
                            await resolve("1");
                             return;
                         } else {
@@ -69,10 +72,11 @@ mp.events.add("server.loginAttempt", (player, nick, password) => {
                 });
             }
         });
-    }).then(async function (result: any) {
-        await console.log("result test: " + result)
-        console.log(typeof result)
-        await player.call("client.loginResult", "" + result);
+    }).then((result: any) => {
+        player.setVariable('client.loginResult', result);
+        if(result === "1")
+            users.loadUser(player, nick);
+
     })
 });
 

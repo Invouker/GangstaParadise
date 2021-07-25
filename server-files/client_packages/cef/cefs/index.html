@@ -164,7 +164,7 @@
         }
 
         .toast .toast-body {
-            background-color: rgba(0,0,0,0.5);
+            background-color: rgba(0,0,0,0.3);
             color: white;
             border: none;
             padding: 0px;
@@ -195,25 +195,21 @@
         <!-- -->
     </style>
 </head>
-
 <div aria-live="polite" aria-atomic="true" class="position-relative">
-    <!-- Position it: -->
-    <!-- - `.toast-container` for spacing between toasts -->
-    <!-- - `.position-absolute`, `top-0` & `end-0` to position the toasts in the upper right corner -->
-    <!-- - `.p-3` to prevent the toasts from sticking to the edge of the container  -->
-    <div class="toast-container position-absolute top-0 end-0 p-3">
-
-    </div>
+    <div class="toast-container position-absolute top-0 end-0 p-3"></div>
 </div>
 <script>
+    //mp.trigger("cef.debug", "create Toast is still possible");
     function createToast(id_, timeDisplay, message) {
+
+        //mp.trigger("cef.debug", "creating toast with: " + message + ", " + id_ + ", " + timeDisplay);
         const toast = {
-            timeDisplay: timeDisplay,
-            timeProgress: 0,
+            timeDisplay: timeDisplay*1000/4,
+            timeProgress: timeDisplay*1000/4,
             id: id_
         };
 
-        const content = "<div id=\""+id_+"\" class=\"toast\" role=\"alert\" aria-live=\"assertive\" aria-atomic=\"true\">\n" +
+        const content = "<div id=\""+id_+"\" class=\"toast "+id_+" \" data-bs-autohide=\"false\" role=\"alert\" aria-live=\"assertive\" aria-atomic=\"true\">\n" +
             "\n" +
             "                <div class=\"toast-body \">\n" +
             "                    <div class=\"gradient\"></div>\n" +
@@ -224,26 +220,30 @@
             "                </div>\n" +
             "        </div>";
 
-        console.log("content: " + content)
-
         $(".toast-container").append(content);
         $('#'+id_).toast('show');
         const updateTimer = setInterval(function(){
-            toast.timeProgress++;
+            toast.timeProgress--;
 
             $("#"+toast.id+"Bottom-gradient").css({"width": ((100/toast.timeDisplay)*toast.timeProgress) + "%"});
 
-            if(toast.timeProgress >= toast.timeDisplay) {
+            if(toast.timeProgress <= 0) {
                 clearInterval(updateTimer);
-                $("#"+toast.id).html("");
+                $("."+id_).remove();
+
             }
 
-        }, 1000);
+        }, 1);
     }
+
+
     //$('.toast').toast('show');
 </script>
-<body>
 
+<body>
+<content>
+
+</content>
 </body>
 
 
@@ -267,11 +267,11 @@
     }
 
     function showCef(cefName) {
-        $("body").load("package://cef/cefs/"+cefName+".html");
+        $("content").load("package://cef/cefs/"+cefName+".html");
     }
 
     function clearCef() {
-        $("body").html("");
+        $("content").empty();
     }
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>

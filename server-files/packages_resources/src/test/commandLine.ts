@@ -38,6 +38,13 @@ function ParseCmd(s:any){
         case "status":
             res = "\n Players: "+mp.players.length+"/"+mp.players.size+"\n Vehicles: "+mp.vehicles.length+"\n Objects: "+mp.objects.length+"\n Uptime: "+process.uptime()+"\n";
             break;
+        case "saveall":
+            res = "All players successfully saved";
+            const users = require("../database/userManager");
+            mp.players.forEach((player: PlayerMp) => {
+                users.saveUser(player);
+            });
+            break;
         case "online":
             res = "\n Online: "+mp.players.length+"/"+mp.players.size+"\n ";
             mp.players.forEach(player => {

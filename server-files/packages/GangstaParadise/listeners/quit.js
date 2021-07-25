@@ -1,0 +1,6 @@
+"use strict";
+var users = require("../database/userManager");
+mp.events.add("playerQuit", function (player, exitType, reason) {
+    users.saveUser(player);
+    console.log("playerQuit");
+});

@@ -158,7 +158,7 @@
         let mail = $("input#forgotPasswordEmailInput").first().val();
         mp.trigger("cef.forgotPassword", mail);
 
-        mp.events.callRemote("server.debug", "MORE OCEAN: " + message);
+        mp.trigger("cef.debug", "MORE OCEAN: " + message);
         break;
       }
     }

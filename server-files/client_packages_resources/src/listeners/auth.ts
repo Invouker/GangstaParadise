@@ -52,13 +52,9 @@ mp.events.add("cef.forgotPassword", (email: String) => {
 
 mp.events.add("client.hideAuth", () => {
     //authCef.active = false;
-    mp.console.logInfo("hide Auth");
     mp.events.call("cef.stopmusic");
-    mp.console.logInfo("hide music");
     mp.events.call("client.clearcef");
-    mp.console.logInfo("hide clearcef");
     mp.gui.cursor.show(false, false);
-    mp.console.logInfo("hide cursor, unfreeze");
     mp.gui.chat.activate(true);
     mp.gui.chat.show(true);
     mp.game.ui.displayHud(true);
@@ -96,9 +92,30 @@ mp.events.add("client.registerResult", (registerResult: Number) => {
    * 0 wrong password
    * 1 successfuly logged
    * */
-mp.events.add("client.loginResults", (loginResult: any) => {
-    mp.console.logInfo("Login result is:: " + loginResult);
-    mp.events.callRemote("server.debug", "result login: " + loginResult);
+mp.events.addDataHandler('client.loginResult', function (entity, loginResult, oldValue) {
+    mp.game.graphics.notify("client.loginResult " + loginResult)
+    if (entity.type === 'player') {
+        mp.events.call("cef.stopmusic");
+        switch (loginResult) {
+            case "2": {
+                mp.console.logError("Login result is -1");
+                console.log("result == -1");
+                break;
+            }
+            case "0": {
+                console.log("Wrong password");
+                break;
+            }
+            case "1": {
+                mp.events.call("client.hideAuth");
+                break;
+            }
+        }
+    }
+})
+/*
+mp.events.add("client.loginResultss", (loginResult: any) => {
+    mp.game.graphics.notify("client.loginResult " + loginResult)
     mp.events.call("cef.stopmusic");
     switch (loginResult) {
         case "2": {
@@ -115,4 +132,4 @@ mp.events.add("client.loginResults", (loginResult: any) => {
             break;
         }
     }
-});
+});*/

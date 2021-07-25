@@ -26,9 +26,7 @@ exports.pool = mysql_1.default.createPool({
 });
 function createDatabase() {
     exports.pool.query("CREATE DATABASE IF NOT EXISTS gangstaparadise;", function (err, rows, fields) { });
-    exports.pool.query("CREATE TABLE IF NOT EXISTS `gangstaparadise`.`gp_users` ( `id` INT NOT NULL AUTO_INCREMENT , " +
-        "`userName` VARCHAR(64) NOT NULL , `email` VARCHAR(255) NOT NULL , `password` VARCHAR(255) NOT NULL , `money` " +
-        "INT NOT NULL , `coin` INT NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;", function (err, rows, fields) { });
+    exports.pool.query("CREATE TABLE IF NOT EXISTS `gp_users` ( `id` int(11) NOT NULL AUTO_INCREMENT, `userName` varchar(64) NOT NULL, `email` varchar(255) NOT NULL, `password` varchar(255) NOT NULL, `health` smallint(255) NOT NULL, `armour` smallint(255) NOT NULL, `position` varchar(400) NOT NULL, `heading` smallint(255) NOT NULL, `adminLevel` tinyint(10) NOT NULL, `money` int(11) NOT NULL, `coin` int(11) NOT NULL, PRIMARY KEY (`id`)) ENGINE = InnoDB;", function (err, rows, fields) { });
 }
 exports.createDatabase = createDatabase;
 module.exports.pool = exports.pool;
