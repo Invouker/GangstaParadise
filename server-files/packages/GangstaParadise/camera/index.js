@@ -14,6 +14,8 @@ mp.events.add('saveCamCoords', function (player, position, pointAtCoord, name) {
     if (name === void 0) { name = 'No name'; }
     var pos = JSON.parse(position);
     var point = JSON.parse(pointAtCoord);
+    console.log(position);
+    console.log(pointAtCoord);
     fs_1.default.appendFile(saveFile, "Position: " + pos.x + ", " + pos.y + ", " + pos.z + " | pointAtCoord: " + point.position.x + ", " + point.position.y + ", " + point.position.z + " | entity: " + point.entity + " - " + name + "\r\n", function (err) {
         if (err) {
             player.notify("~r~SaveCamPos Error: ~w~" + err.message);

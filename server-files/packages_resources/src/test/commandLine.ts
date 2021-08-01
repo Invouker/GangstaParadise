@@ -28,7 +28,7 @@ function ParseCmd(s:any){
                 mp.players.forEach(player => {
                     if(player.name.toLowerCase() == args[1].toLowerCase()){
                         player.giveWeapon(mp.joaat(args[2]), parseInt(args[3]));
-                        res = " Player "+player.name+" received weapons!!!";
+                        res = " Player "+player.name+" received weapons!";
                     }
                 });
             } else {
@@ -36,7 +36,7 @@ function ParseCmd(s:any){
             }
             break;
         case "status":
-            res = "\n Players: "+mp.players.length+"/"+mp.players.size+"\n Vehicles: "+mp.vehicles.length+"\n Objects: "+mp.objects.length+"\n Uptime: "+process.uptime()+"\n";
+            res = "\n=================[Server status]=================\n Players: "+mp.players.length+"/"+mp.players.size+"\n Vehicles: "+mp.vehicles.length+"\n Objects: "+mp.objects.length+"\n Uptime: "+process.uptime()+"\n=================================================";
             break;
         case "saveall":
             res = "All players successfully saved";
@@ -46,19 +46,46 @@ function ParseCmd(s:any){
             });
             break;
         case "online":
-            res = "\n Online: "+mp.players.length+"/"+mp.players.size+"\n ";
+
+            res = "Online: "+mp.players.length+"/"+mp.players.size+"\n ";
             mp.players.forEach(player => {
                 res += player.name+" | "+player.ip+" | "+player.ping+"\n ";
             });
             break;
+
+        case "say":
+            let text :string = "";
+            if(args.length == 0)
+                return;
+
+            for (let i = 1; i < args.length; i++) {
+                text += args[i] + " ";
+            }
+            res = "[Console] " + text;
+            mp.players.broadcast("[Server] " + text);
+            break;
+
+        case "exit":
+        case "stop":
+            res = "Exitting the server";
+            logger.info("Exiting after all tasks ended, pid: " + process.pid);
+            log4js.shutdown(() => process.abort());
+            break;
         default:
-            res = "[Error] Neznámy príkaz!";
+            res = "Neznámy príkaz!";
             break;
     }
     return res;
 }
 
+function done() {
+
+
+}
+
 rl.on('line', (s: any) => {
     var res = ParseCmd(s);
+    readline.moveCursor(process.stdout,0,-1);
+    readline.clearScreenDown(process.stdout);
     console.log(res);
 });

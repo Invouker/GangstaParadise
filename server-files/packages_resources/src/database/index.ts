@@ -3,7 +3,7 @@
 import mysql from 'mysql';
 
 //var mysql = require('mysql');
-console.log("Loading Database");
+console.log("Loading Database...");
 
 /*
 var connection = mysql.createConnection({

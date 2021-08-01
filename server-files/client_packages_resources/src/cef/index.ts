@@ -20,9 +20,20 @@ mp.events.add("client.clearcef", () => {
     cef.execute(`clearCef();`);
 });
 
-mp.events.add("client.showToast", (message, time) => {
+/*
+      * 0 - orange - warning
+      * 1 - green - success
+      * 2 - red - wrong
+      * */
+enum ToastType {
+    Warn= 0,
+    Success = 1,
+    Wrong = 2
+}
+
+mp.events.add("client.showToast", (message, iconType, time) => {
     cef.active = true;
-   cef.execute(`createToast(new Date().getTime()%10000, \`${time}\`, \`${message}\`);`);
+    cef.execute("createToastWithIcon(" +iconType+ ","+time+", \""+message+"\");");
 });
 
 mp.events.add("client.stopmusic.auth", () => {

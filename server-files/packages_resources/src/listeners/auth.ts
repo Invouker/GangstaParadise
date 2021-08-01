@@ -1,10 +1,11 @@
 import {pool} from "../database";
+
 const users = require("../database/userManager");
 const bcrypt = require("bcrypt");
 
 
 mp.events.add(RageEnums.EventKey.PLAYER_JOIN, (player) => {
-    console.log(`[SERVER]: ${player.name} has joined the server!`);
+    console.log(`${player.name} has joined the server!`);
 
 });
 
@@ -35,6 +36,7 @@ mp.events.add("server.registerAttempt", async (player, nick, email, password) =>
         });
     }).then(async function (res) {
         await player.call("client.registerResult", res);
+
     });
 });
 
@@ -73,10 +75,18 @@ mp.events.add("server.loginAttempt", (player, nick, password) => {
             }
         });
     }).then((result: any) => {
+        console.log("result!");
         player.setVariable('client.loginResult', result);
-        if(result === "1")
+        if(result === "1") {
             users.loadUser(player, nick);
+            try {
+                player.defaultCharacter();
+                player.sendToCreator();
 
+            }catch(e) {
+                console.error(e);
+            }
+        }
     })
 });
 

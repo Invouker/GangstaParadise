@@ -8,6 +8,8 @@ const saveFile = 'savedposcam.txt';
 mp.events.add('saveCamCoords', (player, position, pointAtCoord, name = 'No name') => {
     const pos = JSON.parse(position);
     const point = JSON.parse(pointAtCoord);
+    console.log(position)
+    console.log(pointAtCoord)
 
     fs.appendFile(saveFile, `Position: ${pos.x}, ${pos.y}, ${pos.z} | pointAtCoord: ${point.position.x}, ${point.position.y}, ${point.position.z} | entity: ${point.entity} - ${name}\r\n`, (err) => {
         if (err) {

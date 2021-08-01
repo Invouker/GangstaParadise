@@ -121,5 +121,6 @@ mp.events.add('render', function () {
     }
 });
 mp.events.add('getCamCoords', function (name) {
+    mp.events.local
     mp.events.callRemote('saveCamCoords', JSON.stringify(coords), JSON.stringify(pointingAt(fly.point_distance)), name);
 });

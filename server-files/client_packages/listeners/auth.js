@@ -82,20 +82,19 @@ mp.events.add("client.registerResult", function (registerResult) {
    * 1 successfuly logged
    * */
 mp.events.addDataHandler('client.loginResult', function (entity, loginResult, oldValue) {
-    mp.game.graphics.notify("client.loginResult " + loginResult);
     if (entity.type === 'player') {
         mp.events.call("cef.stopmusic");
         switch (loginResult) {
             case "2": {
-                mp.console.logError("Login result is -1");
-                console.log("result == -1");
+                mp.events.call("client.showToast", "Chyba! Kontaktuj administrátora!", ToastType.Wrong, 5);
                 break;
             }
             case "0": {
-                console.log("Wrong password");
+                mp.events.call("client.showToast", "Zadal si zlé heslo", ToastType.Warn, 5);
                 break;
             }
             case "1": {
+                mp.events.call("client.showToast", "Úspešne si sa prihlásil!", ToastType.Success, 5);
                 mp.events.call("client.hideAuth");
                 break;
             }

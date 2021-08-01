@@ -1,11 +1,11 @@
 {
 	"maxplayers" : 100,
-	"name" : "RAGE:MP Unofficial server", 
+	"name" : "[SK/CZ] [1.1+] Gangsta Paradise v0.01+", 
 	"gamemode" : "freeroam", 
 	"stream-distance" : 500.0,
 	"announce" : false,
 	"csharp" : "disabled",
-	"encryption": false,
+	"encryption": true,
 	"allow-cef-debugging": true,
 	"port": 22005
 }

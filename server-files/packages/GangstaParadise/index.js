@@ -1,40 +1,47 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 var log4js = require("log4js");
-var format = require('date-format');
 log4js.configure({
     categories: {
-        default: { appenders: ['out', 'afile'], level: 'ALL' },
+        default: { appenders: ['out'], level: 'ALL' },
         tofile: { appenders: ['afile'], level: 'info' }
     },
     appenders: {
-        afile: { type: 'multiFile', base: 'logs/', property: 'categoryName', extension: '.log' },
+        afile: {
+            type: 'multiFile',
+            base: 'logs/',
+            property: 'categoryName',
+            extension: '.log',
+            maxLogSize: 5120000,
+            backups: 3
+        },
         out: {
             type: 'stdout',
             layout: {
                 type: 'pattern',
-                //[13:19:11] [IO-Worker-15/INFO]:
-                pattern: '[%[%d{hh:mm:ss}%]] [%[%p%]]:%[ %m %]'
+                pattern: '[%d{hh:mm:ss}] [%[%p%]]:%] %m' //[13:19:11] [INFO]:
             }
         }
     },
 });
-var logger = log4js.getLogger('latest.log');
+var logger = log4js.getLogger('latest');
 ;
 exports.logger = logger;
-logger.info('Hello!');
-logger.debug("debug message");
-logger.info('doing something.');
-logger.info('this is just a test');
-logger.error('of a custom appender');
-logger.warn('that outputs json');
 console.log = function (msg) { return logger.info(msg); };
+console.error = function (msg) { return logger.error(msg); };
+console.debug = function (msg) { return logger.debug(msg); };
+console.warn = function (msg) { return logger.warn(msg); };
+console.trace = function (msg) { return logger.trace(msg); };
 console.log('Ganga Paradise gamemode initialization...');
+var RagempAutoReloadPlugin = require('ragemp-auto-reload-webpack-plugin').RagempAutoReloadPlugin;
+module.exports = {
+    plugins: [new RagempAutoReloadPlugin({ serverPath: 'E:/Games/RageMP/server-files/ragemp-server.exe' })]
+};
 var database = require('./database/index');
 database.createDatabase();
-global.db = database.pool;
+var pool = database.pool;
 require("./car/index");
 ////pool.query("INSERT INTO gp_users (userName, email, password, money, coin) VALUES (?,?,?,?,?)", ["XpresS", "mail", "pass", 2500, 25], function (err:any, result:any, fields:any) {});
+var charCreator2 = require("./listeners/charCreator");
 require("./listeners/auth");
 require("./camera");
 require("./test/commandLine");
@@ -42,3 +49,9 @@ require("./listeners/quit");
 mp.events.add("server.debug", function (player, debugMessage) {
     console.log("[Debug-Client] Client name: " + player.name + ", message: " + debugMessage);
 });
+var ToastType;
+(function (ToastType) {
+    ToastType[ToastType["Warn"] = 0] = "Warn";
+    ToastType[ToastType["Success"] = 1] = "Success";
+    ToastType[ToastType["Wrong"] = 2] = "Wrong";
+})(ToastType || (ToastType = {}));

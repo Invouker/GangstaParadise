@@ -2,12 +2,17 @@
 //declare var global.gm:any = {};
 
 require("./cef");
+const nativeui = require("./lib/nativeui")
+const {Menu, UIMenuItem, UIMenuListItem, UIMenuCheckboxItem, BadgeStyle, Point, ItemsCollection, Color} = nativeui;
 //gm.cef = require("./lib/cefManager");
-
+const characterData  = require("./charcreator/data");
+require("./charcreator/index");
 require("./listeners/auth");
 require("./listeners/quit");
 require("./commands/test")
-require("./camera");
+require("./camera/fly");
+require("./lib/cameraManager");
+
 
 mp.events.callRemote("server.debug", "Start testing debug messages");
 mp.events.add("cef.debug", (message) => {

@@ -14,9 +14,20 @@ mp.events.add("cef.stopmusic", function () {
 mp.events.add("client.clearcef", function () {
     cef.execute("clearCef();");
 });
-mp.events.add("client.showToast", function (message, time) {
+/*
+      * 0 - orange - warning
+      * 1 - green - success
+      * 2 - red - wrong
+      * */
+var ToastType;
+(function (ToastType) {
+    ToastType[ToastType["Warn"] = 0] = "Warn";
+    ToastType[ToastType["Success"] = 1] = "Success";
+    ToastType[ToastType["Wrong"] = 2] = "Wrong";
+})(ToastType || (ToastType = {}));
+mp.events.add("client.showToast", function (message, iconType, time) {
     cef.active = true;
-    cef.execute("createToast(new Date().getTime()%10000, `" + time + "`, `" + message + "`);");
+    cef.execute("createToastWithIcon(" + iconType + "," + time + ", \"" + message + "\");");
 });
 mp.events.add("client.stopmusic.auth", function () {
     cef.execute("stopMusic();");

@@ -16,7 +16,11 @@ mp.keys.bind(0x71, true, function() {
 });
 
 mp.keys.bind(0x72, true, function() {
-    mp.events.call("client.showToast", ["hehe, toast", 100]);
+    mp.events.call("client.showToast", "Úspešne si sa prihlásil!",ToastType.Wrong, 10);
+    mp.events.call("client.showToast", "Úspešne si sa prihlásil!",ToastType.Success, 15);
+    mp.events.call("client.showToast", "Úspešne si sa prihlásil!",ToastType.Warn, 30);
     //mp.events.call("client.showToast", "hehe, toast22", 100);
-    mp.gui.chat.push('F3 key is pressed.');
+
 });
+
+

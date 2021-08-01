@@ -16,6 +16,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Marmelad&display=swap" rel="stylesheet">
 
     <style type="text/css">
+        body {
+            background-color: rgba(0, 0, 0, 0);
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center;
+            background-origin: border-box;
+            background-size: 100%;
+
+            overflow-y: hidden;
+            overflow-x: hidden;
+        }
+
         .auth {
             border-bottom: 8px solid rgba(43, 48, 54, 0.95);
             border-bottom-right-radius: 9px;
@@ -52,15 +64,6 @@
             padding: 1em;
             background-color: rgba(50, 56, 62, 0.95);
             color: white;
-        }
-
-        body {
-            background-color: rgba(0, 0, 0, 0);
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            background-position: center;
-            background-origin: border-box;
-            background-size: 100%;
         }
 
         .auth form input {
@@ -164,7 +167,7 @@
         }
 
         .toast .toast-body {
-            background-color: rgba(0,0,0,0.3);
+            background-color: rgba(0,0,0,0.65);
             color: white;
             border: none;
             padding: 0px;
@@ -190,46 +193,118 @@
             width: 50%;
         }
 
+        .red {
+            color: #ff5252;
+        }
+
+        .orange {
+            color: orange;
+        }
+
+        .green {
+            color: #85c74b;
+        }
 
 
         <!-- -->
+
+
+
+        body {
+
+        }
+
+        .hide {
+            display: none!important;
+        }
+
+        hud .vehicle {
+            margin-top: 60%;
+            background-color: red;
+        }
+
+        .hudHeight {
+            height: 570px;
+        }
+
+        .bRed {
+            background-color: red;
+        }
+
+        hud .infoBar {
+            color: white;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px #2c3042;
+        }
     </style>
 </head>
-<div aria-live="polite" aria-atomic="true" class="position-relative">
-    <div class="toast-container position-absolute top-0 end-0 p-3"></div>
-</div>
+
 <script>
     //mp.trigger("cef.debug", "create Toast is still possible");
-    function createToast(id_, timeDisplay, message) {
+    let maxToasts = 5;
+    let totalToasts = 0;
 
+    //createToastWithIcon(2, 10, "Testujem max length to this shit");
+
+
+    function createToast(timeDisplay, message) {
+        createToastWithIcon(0, timeDisplay, message);
+    }
+    function createToastWithIcon(type, timeDisplay, message) {
+        if(totalToasts > maxToasts)
+            return;
+
+        let id_ = new Date().getTime()%10000;
         //mp.trigger("cef.debug", "creating toast with: " + message + ", " + id_ + ", " + timeDisplay);
-        const toast = {
+        let toast = {
             timeDisplay: timeDisplay*1000/4,
             timeProgress: timeDisplay*1000/4,
-            id: id_
         };
-
+        /*
+        * 0 - orange - warning
+        * 1 - green - success
+        * 2 - red - wrong
+        * */
+        let iconType;
+        switch(type) {
+            default:
+            case 0: {
+                iconType = "<i class=\"fas fa-exclamation-triangle orange\"></i>";
+                break
+            }
+            case 1: {
+                iconType = "<i class=\"fas fa-check-circle green\"></i>";
+                break
+            }
+            case 2: {
+                iconType = "<i class=\"fas fa-times-circle red\"></i>";
+                break
+            }
+        }
         const content = "<div id=\""+id_+"\" class=\"toast "+id_+" \" data-bs-autohide=\"false\" role=\"alert\" aria-live=\"assertive\" aria-atomic=\"true\">\n" +
             "\n" +
             "                <div class=\"toast-body \">\n" +
             "                    <div class=\"gradient\"></div>\n" +
             "                    <div class=\"content\">\n" +
-            "                        <i class=\"far fa-check-circle fa-flash\"></i> " + message + "\n" +
+            "                        "+ iconType + " " + message + "\n" +
             "                    </div>\n" +
             "                    <div id=\""+id_+"Bottom-gradient\" class=\"gradient\"></div>\n" +
             "                </div>\n" +
             "        </div>";
 
+        totalToasts++;
         $(".toast-container").append(content);
-        $('#'+id_).toast('show');
+        $('#'+id_).addClass('show');
+        //mp.trigger("cef.debug", "show");
         const updateTimer = setInterval(function(){
             toast.timeProgress--;
-
-            $("#"+toast.id+"Bottom-gradient").css({"width": ((100/toast.timeDisplay)*toast.timeProgress) + "%"});
+            $("#"+id_+"Bottom-gradient").css({"width": ((100/toast.timeDisplay)*toast.timeProgress) + "%"});
 
             if(toast.timeProgress <= 0) {
+                //mp.trigger("cef.debug", "clear");
                 clearInterval(updateTimer);
                 $("."+id_).remove();
+                totalToasts--;
 
             }
 
@@ -241,13 +316,62 @@
 </script>
 
 <body>
-<content>
+<div aria-live="polite" aria-atomic="true" class="position-relative">
+    <div class="toast-container position-absolute top-0 end-0 p-3"></div>
+</div>
+<content></content>
+    <hud>
 
-</content>
+            <div class="container">
+                <div class="hudHeight row justify-content-md-center">
+                    <div class="col">
+
+                    </div>
+                    <div class="col col-6">
+
+                    </div>
+
+                    <div class="w-100"></div> <!-- WIDTH 100% -->
+
+                    <div class="col">
+
+                    </div>
+                    <div class="col col-6 h-100 d-inline-block">
+
+                    </div>
+                    <div class="col">
+
+                    </div>
+                    <div class="w-100"></div><!-- WIDTH 100% -->
+                    <div class="row justify-content-md-center">
+                        <div class="col col-lg-4">
+                            <div class="infoBar">
+                                <b>Richman</b>
+                                19:50 27.7.2021<br />
+
+                            </div>
+                        </div>
+                        <div class="col-md-auto">
+                            Variable width content
+                        </div>
+                        <div class="col col-lg-3">
+                            3 of 3
+                        </div>
+                    </div>
+                </div>
+                <div class="w-100"></div><!-- WIDTH 100% -->
+
+
+
+            </div>
+
+
+
+    </hud>
 </body>
 
 
-<script language='javascript' type='text/javascript'>
+<script type='text/javascript'>
     let audio = undefined;
 
     function playMusic(link) {

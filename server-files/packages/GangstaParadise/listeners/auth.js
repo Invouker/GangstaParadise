@@ -40,7 +40,7 @@ var database_1 = require("../database");
 var users = require("../database/userManager");
 var bcrypt = require("bcrypt");
 mp.events.add("playerJoin" /* PLAYER_JOIN */, function (player) {
-    console.log("[SERVER]: " + player.name + " has joined the server!");
+    console.log(player.name + " has joined the server!");
 });
 /*
    * Register results:
@@ -141,9 +141,18 @@ mp.events.add("server.loginAttempt", function (player, nick, password) {
             }
         });
     }).then(function (result) {
+        console.log("result!");
         player.setVariable('client.loginResult', result);
-        if (result === "1")
+        if (result === "1") {
             users.loadUser(player, nick);
+            try {
+                player.defaultCharacter();
+                player.sendToCreator();
+            }
+            catch (e) {
+                console.error(e);
+            }
+        }
     });
 });
 mp.events.add("server.forgotPassword", function (player, email) {
